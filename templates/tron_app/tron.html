@@ -1,0 +1,98 @@
+{% extends "tron_app/base.html" %}
+{% load my_tags %}
+{% load static %}
+
+{% block css_block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tron.css' %}">
+{% endblock css_block %}
+
+{% block body_block %}
+    <div class="container" align="center">
+        <div class="jumbotron">
+            <table class="myTable" align="center">
+                <div class="divTable">
+                    {% for cell in matrix.cell_set.all %}
+                        {% if forloop.counter|modulo:matrix.cols == 1 %}
+                            <tr>
+                        {% endif %}
+                        {% if cell.val == 0 %}
+                            <td></td>
+                        {% endif %}
+                        {% if cell.val == 1 %}
+                            <td class="blue"></td>
+                        {% endif %}
+                        {% if cell.val == 2 %}
+                            <td class="yellow"></td>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </table>
+            <br>
+
+        </div>
+        <button type="button" class="runBtn btn btn-primary btn-lg">Run!</button>
+        <button type="button" class="cleanBtn btn btn-primary btn-lg">Clean!</button>
+    </div>
+{% endblock body_block %}
+
+{% block script %}
+    <script>
+        var mytime = 100;
+
+        function getLastCells() {
+            $.ajax({
+                type: "GET",
+                url: "{% url "tron_app:lastCells" %}",
+                success: function (data) {
+                    my_data = data.models_to_return;
+                    for (i = 0; i < my_data.length; i++) {
+                        var cell = my_data[i];
+                        if (cell.val == 1) {
+                            $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "blue");
+                        } else if (cell.val == 2) {
+                            $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "yellow");
+                        } else {
+                            $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "white");
+                        }
+                    }
+                }
+            })
+        }
+
+        var myInterval = setInterval(getLastCells, mytime);
+
+
+        $(".runBtn").click(function () {
+            $(".runBtn").attr('disabled', true);
+            $(".cleanBtn").attr('disabled', true);
+            $.ajax(
+                {
+                    url: '{% url "tron_app:run" %}',
+                    success: function (data) {
+                        $(".runBtn").attr('disabled', false);
+                        $(".cleanBtn").attr('disabled', false);
+                    }
+                }
+            )
+        });
+
+        $(".cleanBtn").click(function () {
+            clearInterval(myInterval)
+            $(".runBtn").attr('disabled', true);
+            $(".cleanBtn").attr('disabled', true);
+            $.ajax(
+                {
+                    url: '{% url "tron_app:clean" %}',
+                    success: function (data) {
+                        console.log(data)
+                        $(".jumbotron").load({% url "tron_app:tron" %} +" .myTable");
+                        myInterval = setInterval(getLastCells, mytime);
+                        $(".runBtn").attr('disabled', false);
+                        $(".cleanBtn").attr('disabled', false);
+                    }
+                }
+            )
+        })
+
+    </script>
+{% endblock script %}

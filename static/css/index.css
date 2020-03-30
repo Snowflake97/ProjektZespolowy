@@ -1,0 +1,15 @@
+ .jumbotron {
+        text-align: center;
+        height: 400px;
+        background-image: url("/static/img/background_jumbotron.jpg");
+        background-size: cover;
+    }
+
+    .jumbotron h1 {
+        padding-top: 7%;
+        padding-left: 4%;
+    }
+
+    .jumbotron .buttons {
+        padding-left: 4%;
+    }

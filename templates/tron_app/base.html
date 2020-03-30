@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projekt Zespołowy</title>
+    <link rel="stylesheet" href="{% static 'libraries/bootstrap.css' %}">
+
+    <script src="{% static 'libraries/jquery.js' %}"></script>
+    <script src="{% static 'libraries/poper.js' %}"></script>
+    <script src="{% static 'libraries/bootstrap_js.js' %}"></script>
+
+    {% block css_block %}
+    {% endblock css_block %}
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'tron_app:index' %}">#play</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+            aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url "tron_app:tron" %}">Tests<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% block body_block %}
+{% endblock body_block %}
+</body>
+</html>
+
+{% block script %}
+{% endblock script %}
+
+

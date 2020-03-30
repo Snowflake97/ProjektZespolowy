@@ -1,0 +1,26 @@
+td {
+    border: 1px solid black;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.blue {
+    background: blue;
+}
+
+.yellow {
+    background: yellow;
+}
+
+.container {
+    padding-top: 1%;
+}
+
+table {
+    border: 1px solid black;
+}
+
+.jumbotron {
+    background: white;
+}
+
