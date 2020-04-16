@@ -6,23 +6,27 @@ import django
 
 django.setup()
 
-from Simulator.GameBoard import Gameboard
+from Simulator.Communication import *
+import time, random
 
 gameboard = Gameboard()
 
-# gameboard.set_on_position(11, 10, 1)
-# gameboard.set_on_position(10, 10, 1)
-# gameboard.print_map()
-# print("\n\n")
+bot_1 = pexpect.spawn(f"/home/adi/venv/bin/python bot.py bot_1")
+bot_2 = pexpect.spawn(f"/home/adi/venv/bin/python bot.py bot_2")
+for i in range(20):
+    row, col = whole_seq(bot_1)  # sequence for bot1(get position and direction, send map to bot and mark move)
+    if gameboard.check_if_colision(row,col):
+        print("Colision")
+        break
+    else:
+        gameboard.set_on_position(row, col, 1)  # mark returned position
 
-# print(gameboard.check_if_colision(0,1))
-# map_piece = gameboard.get_map_piece((10, 10), "down", 2, 5)
-# for row in map_piece:
-#     print(row)
-#
-# print("\n\n")
-# map_piece_string = gameboard.convert_map_piece_to_string(map_piece)
-#
-# map_matrix = gameboard.convert_string_map_piece_to_matrix(map_piece_string)
-# for i in map_matrix:
-#     print(i)
+    row, col = whole_seq(bot_2)  # sequence for bot2(get position and direction, send map to bot and mark move)
+    if gameboard.check_if_colision(row,col):
+        print("Colision")
+        break
+    else:
+        gameboard.set_on_position(row, col, 2)  # mark returned position
+
+bot_1.close()
+bot_2.close()

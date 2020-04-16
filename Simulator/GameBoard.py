@@ -129,33 +129,34 @@ class Gameboard:
         return map_piece
 
     def convert_map_piece_to_string(self, map_piece: list):
-        # conversion from matrix to string
-        map_piece_string = ""
+        map_string = ""
+        map_len = len(map_piece)
         for rows in map_piece:
-            for tuples in rows:
-                row, column, value = tuples
-                data = "{}.{}.{}".format(row, column, value)
-                if tuples != rows[-1]:
-                    data += ":"
-                map_piece_string += data
-                map_piece_string.join(":")
-            if rows != map_piece[-1]:
-                map_piece_string += "-"
+            for tups in rows:
+                row, col, val = tups
+                data = "{}.{}.{}".format(row, col, val)
+                map_string += data
+                map_string += ":"
 
-        return map_piece_string
+        map_string += str(map_len - 1)
+        return map_string
 
-    def convert_string_map_piece_to_matrix(self, map_piece: str):
-        # conversion from string to matrix
-        # decompilation for BOTs
-        map = []
-        rows = []
-        rows_str = map_piece.split("-")
-        for row_str in rows_str:
-            columns = row_str.split(":")
-            for data in columns:
-                row, column, value = data.split(".")
-                rows.append((int(row), int(column), int(value)))
-            map.append(rows)
-            rows = []
-
-        return map
+    # def convert_string_map_piece_to_matrix(self, map_piece: str):
+    #
+    #     elements = map_piece.split(":")
+    #     rows_size = elements.pop()
+    #     rows = []
+    #     map = []
+    #     for e in elements:
+    #         row, col, val = e.split(".")
+    #         row = int(row)
+    #         col = int(col)
+    #         val = int(val)
+    #         tup = (row, col, val)
+    #         rows.append(tup)
+    #         # print(rows)
+    #         if (len(rows) == rows_size):
+    #             map.append(rows)
+    #             rows = []
+    #
+    #     return map
