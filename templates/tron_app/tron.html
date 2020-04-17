@@ -22,7 +22,7 @@
                             <td class="blue"></td>
                         {% endif %}
                         {% if cell.val == 2 %}
-                            <td class="yellow"></td>
+                            <td class="red"></td>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -50,7 +50,7 @@
                         if (cell.val == 1) {
                             $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "blue");
                         } else if (cell.val == 2) {
-                            $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "yellow");
+                            $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "red");
                         } else {
                             $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "white");
                         }
