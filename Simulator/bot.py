@@ -27,6 +27,7 @@ def convert_string_map_piece_to_matrix(map_piece: str):
 
 current_row = 15
 current_col = 12
+current_direction = "left"
 
 while True:
     line = sys.stdin.readline()
@@ -37,7 +38,7 @@ while True:
         print(f"MOVE---{current_row}---{current_col}")
     if "position_and_direction" in line:
         # left or down or up or right
-        print(f"ROW---{current_row}---COLUMN---{current_col}---DIRECTION---LEFT")
+        print(f"ROW---{current_row}---COLUMN---{current_col}---DIRECTION---{current_direction}")
     if "map" in line:
         # convert string to matrix map
         string_map = line.replace("map---", "")

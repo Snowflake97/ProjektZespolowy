@@ -5,6 +5,7 @@ from .models import Matrix, Cell
 from django.http import Http404, HttpResponse
 import json
 from django.http import JsonResponse
+from Simulator.TRON_Simulator import *
 
 
 def index(request):
@@ -46,3 +47,12 @@ def get_last_cells(request):
     last = Cell.objects.all().order_by('-time')[:10]
     queryset = last.values("row", "col", "val")
     return JsonResponse({"models_to_return": list(queryset)})
+
+def run_simulation(request):
+    if request.is_ajax():
+        run()
+        more_data = ["finish"]
+        data = json.dumps(more_data)
+        return HttpResponse(data, content_type="application/json")
+    else:
+        raise Http404

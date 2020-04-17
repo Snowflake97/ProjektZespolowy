@@ -27,17 +27,21 @@
                     {% endfor %}
                 </div>
             </table>
-            <br>
-
         </div>
-        <button type="button" class="runBtn btn btn-primary btn-lg">Run!</button>
-        <button type="button" class="cleanBtn btn btn-primary btn-lg">Clean!</button>
+        <button type="button" class="runBtn btn btn-primary btn-lg">Run Script</button>
+        <button type="button" class="cleanBtn btn btn-primary btn-lg">Clean</button>
+        <button type="button" class="runBots btn btn-primary btn-lg">Run Bots</button>
     </div>
 {% endblock body_block %}
 
 {% block script %}
     <script>
         var mytime = 100;
+        var buttons = $("button")
+
+        function changeButtonsDisabledState(setBoolean){
+            buttons.attr('disabled', setBoolean)
+        }
 
         function getLastCells() {
             $.ajax({
@@ -63,14 +67,12 @@
 
 
         $(".runBtn").click(function () {
-            $(".runBtn").attr('disabled', true);
-            $(".cleanBtn").attr('disabled', true);
+            changeButtonsDisabledState(true)
             $.ajax(
                 {
                     url: '{% url "tron_app:run" %}',
                     success: function (data) {
-                        $(".runBtn").attr('disabled', false);
-                        $(".cleanBtn").attr('disabled', false);
+                        changeButtonsDisabledState(false)
                     }
                 }
             )
@@ -78,21 +80,30 @@
 
         $(".cleanBtn").click(function () {
             clearInterval(myInterval)
-            $(".runBtn").attr('disabled', true);
-            $(".cleanBtn").attr('disabled', true);
+            changeButtonsDisabledState(true)
             $.ajax(
                 {
                     url: '{% url "tron_app:clean" %}',
                     success: function (data) {
-                        console.log(data)
                         $(".jumbotron").load({% url "tron_app:tron" %} +" .myTable");
                         myInterval = setInterval(getLastCells, mytime);
-                        $(".runBtn").attr('disabled', false);
-                        $(".cleanBtn").attr('disabled', false);
+                        changeButtonsDisabledState(false)
                     }
                 }
             )
         })
+
+        $(".runBots").click(function () {
+            changeButtonsDisabledState(true)
+            $.ajax(
+                {
+                    url: '{% url "tron_app:runSimulation" %}',
+                    success: function (data) {
+                        changeButtonsDisabledState(false)
+                    }
+                }
+            )
+        });
 
     </script>
 {% endblock script %}
