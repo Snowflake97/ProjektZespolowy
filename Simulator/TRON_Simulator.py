@@ -18,7 +18,7 @@ def run():
     NODE_INTERPRETER_DIR = "/usr/bin/nodejs"
 
     # */Projektespolowy/Simulator/bot.js (will change for sure)
-    BOT_JS_DIR = "/home/adi/Desktop/DjangoProjects/ProjektZespolowy/Simulator/bot.js"
+    BOT_JS_DIR = os.path.join(BASE_DIR, "Simulator", "bot.js")
     # */Projektespolowy/Simulator/bot.py (will change for sure)
     BOT_PY_DIR = os.path.join(BASE_DIR, "Simulator", "bot.py")
 

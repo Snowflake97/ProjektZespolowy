@@ -48,6 +48,7 @@ def get_last_cells(request):
     queryset = last.values("row", "col", "val")
     return JsonResponse({"models_to_return": list(queryset)})
 
+
 def run_simulation(request):
     if request.is_ajax():
         run()
