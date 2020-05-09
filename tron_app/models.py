@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-import datetime
+import os
 
 
 class Matrix(models.Model):
@@ -9,6 +9,11 @@ class Matrix(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField(default=0)
     cols = models.IntegerField(default=0)
+
+    def bot_1_name(self):
+        return os.path.basename(self.bot_1.name)
+    def bot_2_name(self):
+        return os.path.basename(self.bot_2.name)
 
     def __str__(self):
         return self.name

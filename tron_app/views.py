@@ -6,6 +6,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 import json
 from django.http import JsonResponse
 from new_board import newMatrix
+from Simulator import TRON_Simulator
 
 
 
@@ -52,7 +53,7 @@ def get_last_cells(request):
 
 def run_simulation(request):
     if request.is_ajax():
-        # run()
+        TRON_Simulator.run()
         more_data = ["finish"]
         data = json.dumps(more_data)
         return HttpResponse(data, content_type="application/json")

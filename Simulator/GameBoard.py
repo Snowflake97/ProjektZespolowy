@@ -8,8 +8,8 @@ import os
 class Gameboard:
     def __init__(self):
         self.matrix = Matrix.objects.last()
-        self.bot_1 = self.matrix.bot_1
-        self.bot_2 = self.matrix.bot_2
+        self.bot_1 = self.matrix.bot_1_name()
+        self.bot_2 = self.matrix.bot_2_name()
         self.rows = self.matrix.cell_set.all().aggregate(Max('row'))['row__max'] + 1  # get row size
         self.columns = self.matrix.cell_set.all().aggregate(Max('col'))['col__max'] + 1  # columns size
         self.game_map = self.load_map()  # load map from db
@@ -19,7 +19,7 @@ class Gameboard:
         for row in range(self.rows):
             game_map.append([])
             for column in range(self.columns):
-                game_map[row].append(Cell.objects.get(row=row, col=column).val)
+                game_map[row].append(self.matrix.cell_set.get(row=row, col=column).val)
         return game_map
 
     def print_map(self):
@@ -31,7 +31,7 @@ class Gameboard:
 
     def set_on_position(self, row: int, column: int, obj_to_set):
         self.game_map[row][column] = obj_to_set
-        cell = Cell.objects.get(row=row, col=column)  # get cell from db
+        cell = self.matrix.cell_set.get(row=row, col=column)  # get cell from db
         cell.val = obj_to_set  # change value
         cell.time = datetime.now(tz=timezone.utc)  # set current time
         cell.save()  # save cell to db

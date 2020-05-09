@@ -14,18 +14,18 @@
                 {% csrf_token %}
                 {#                {{ matrix_form.as_p }}#}
                 <div class="form-group">
-                    <label for="matrix_name">Nazwa :</label>
+                    <label for="matrix_name">Name :</label>
                     <input type="text" id="matrix_name" name="matrix_name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="rows">Ilość rzędów:</label>
-                    <input type="number" name="rows" value="30" min="10" id="rows">
+                    <label for="rows">Rows:</label>
+                    <input type="number" name="rows" value="30" min="10" max="100" id="rows">
                 </div>
 
                 <div class="form-group">
-                    <label for="cols">Ilość kolumn:</label>
-                    <input type="number" name="cols" value="30" min="10" id="cols">
+                    <label for="cols">Columns:</label>
+                    <input type="number" name="cols" value="30" min="10" max="100" id="cols">
                 </div>
 
                 <div class="form-group">
@@ -40,7 +40,7 @@
 
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary mb-2">Rozpocznij</button>
+                    <button type="submit" class="btn btn-primary mb-2">Generate new game</button>
                 </div>
 
             </form>

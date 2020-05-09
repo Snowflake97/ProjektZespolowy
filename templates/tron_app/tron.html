@@ -4,9 +4,11 @@
 
 {% block css_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/tron.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/prepare_game.css' %}">
 {% endblock css_block %}
 
 {% block body_block %}
+    <div class="loader"></div>
     <div class="container" align="center">
         <div class="jumbotron">
             <table class="myTable" align="center">
@@ -79,6 +81,8 @@
         });
 
         $(".cleanBtn").click(function () {
+            $(".container").hide()
+            $(".loader").css('visibility', 'visible')
             clearInterval(myInterval)
             changeButtonsDisabledState(true)
             $.ajax(
@@ -88,6 +92,8 @@
                         $(".jumbotron").load({% url "tron_app:tron" %} +" .myTable");
                         myInterval = setInterval(getLastCells, mytime);
                         changeButtonsDisabledState(false)
+                        $(".loader").css('visibility', 'hidden')
+                        $(".container").show()
                     }
                 }
             )
