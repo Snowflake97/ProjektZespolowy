@@ -7,21 +7,19 @@ import django
 # Import settings
 django.setup()
 
-from tron_app.models import Cell, Matrix
+from tron_app.models import Cell
 
-def newMatrix(size):
+def newMatrix(matrix):
+    cols = matrix.cols
+    rows = matrix.rows
 
-    Matrix.objects.all().delete()
-    new_matrix = Matrix(name="test_matrix", cols=size, rows=size)
-    new_matrix.save()
-
-    for i in range(0, size):
-        for j in range(0, size):
-            cell = Cell(row=i, col=j, val=0, matrix=new_matrix)
+    for i in range(0, rows):
+        for j in range(0, cols):
+            cell = Cell(row=i, col=j, val=0, matrix=matrix)
             cell.save()
 
 if __name__ == '__main__':
-    newMatrix(20)
+    newMatrix(20,20)
     print('New board created')
 
 

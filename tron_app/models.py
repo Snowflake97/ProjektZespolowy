@@ -4,6 +4,8 @@ import datetime
 
 
 class Matrix(models.Model):
+    bot_1 = models.FileField(upload_to='bots/', blank=True)
+    bot_2 = models.FileField(upload_to='bots/', blank=True)
     name = models.CharField(max_length=255)
     rows = models.IntegerField(default=0)
     cols = models.IntegerField(default=0)

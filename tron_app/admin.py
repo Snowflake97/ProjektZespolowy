@@ -5,3 +5,4 @@ from .models import Cell, Matrix
 
 admin.site.register(Cell)
 admin.site.register(Matrix)
+

@@ -2,10 +2,11 @@ from django.shortcuts import render
 from make_move import Simulation
 from clean_matrix import clean as cleanMatrix
 from .models import Matrix, Cell
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 import json
 from django.http import JsonResponse
-from Simulator.TRON_Simulator import *
+from new_board import newMatrix
+
 
 
 def index(request):
@@ -51,9 +52,25 @@ def get_last_cells(request):
 
 def run_simulation(request):
     if request.is_ajax():
-        run()
+        # run()
         more_data = ["finish"]
         data = json.dumps(more_data)
         return HttpResponse(data, content_type="application/json")
     else:
         raise Http404
+
+
+def prepare_game(request):
+
+    if request.method == 'POST':
+        name = request.POST.get('matrix_name')
+        bot1 = request.FILES.get('bot1')
+        bot2 = request.FILES.get('bot2')
+        rows = int(request.POST.get('rows'))
+        cols = int(request.POST.get('cols'))
+
+        matrix = Matrix(name=name,bot_1=bot1, bot_2=bot2, rows=rows, cols=cols)
+        matrix.save()
+        newMatrix(matrix)
+        return HttpResponseRedirect('/tron/')
+    return render(request, 'tron_app/prepare_game.html')

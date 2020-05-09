@@ -1,13 +1,17 @@
-from tron_app.models import Cell
+from tron_app.models import Cell, Matrix
 from django.db.models import Max
 from django.utils import timezone
 from datetime import datetime
+import os
 
 
 class Gameboard:
     def __init__(self):
-        self.rows = Cell.objects.all().aggregate(Max('row'))['row__max'] + 1  # get row size
-        self.columns = Cell.objects.all().aggregate(Max('col'))['col__max'] + 1  # columns size
+        self.matrix = Matrix.objects.last()
+        self.bot_1 = self.matrix.bot_1
+        self.bot_2 = self.matrix.bot_2
+        self.rows = self.matrix.cell_set.all().aggregate(Max('row'))['row__max'] + 1  # get row size
+        self.columns = self.matrix.cell_set.all().aggregate(Max('col'))['col__max'] + 1  # columns size
         self.game_map = self.load_map()  # load map from db
 
     def load_map(self):
