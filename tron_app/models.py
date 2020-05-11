@@ -9,7 +9,9 @@ class Matrix(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField(default=0)
     cols = models.IntegerField(default=0)
-    result = models.CharField(max_length=500, default="")
+    result = models.CharField(max_length=500, default="Click run to start simulation")
+    bot_front_view_size = models.IntegerField(default=5)
+    bot_side_view_size= models.IntegerField(default=2)
 
     def bot_1_name(self):
         return os.path.basename(self.bot_1.name)

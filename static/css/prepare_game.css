@@ -24,10 +24,6 @@
     }
 }
 
-#rows {
-    width: 50px;
-}
-
-#cols {
+.numbers {
     width: 50px;
 }

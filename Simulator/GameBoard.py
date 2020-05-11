@@ -138,7 +138,7 @@ class Gameboard:
 
     def convert_map_piece_to_string(self, map_piece: list):
         map_string = ""
-        map_len = len(map_piece)
+        map_len = len(map_piece[0])
         for rows in map_piece:
             for tups in rows:
                 row, col, val = tups
@@ -146,7 +146,7 @@ class Gameboard:
                 map_string += data
                 map_string += ":"
 
-        map_string += str(map_len - 1)
+        map_string += str(map_len)
         return map_string
 
     def is_move_possible(self, row, column):
@@ -161,7 +161,6 @@ class Gameboard:
         state = False
         for surr in surrounding:
             row, col = surr
-            print(surr)
             if row >= 0 and row < self.rows:
                 if col >= 0 and col < self.columns:
                     if self.game_map[row][col] == 0:

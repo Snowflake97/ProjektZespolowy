@@ -73,18 +73,20 @@
             })
         }
 
-        var myInterval = setInterval(getLastCells, mytime);
+
 
         function clean() {
             $(".container").hide()
             $(".loader").css('visibility', 'visible')
-            clearInterval(myInterval)
+            {#clearInterval(myInterval)#}
             $.ajax(
                 {
                     url: '{% url "tron_app:clean" %}',
                     success: function (data) {
                         $(".jumbotron").load({% url "tron_app:tron" %} +" .myTable");
-                        myInterval = setInterval(getLastCells, mytime);
+                        $("#titleHeader").text("Click run to start simulation");
+                        result = "Click run to start simulation"
+                        {#myInterval = setInterval(getLastCells, mytime);#}
                         $(".loader").css('visibility', 'hidden')
                         $(".container").show()
                     }
@@ -96,16 +98,17 @@
             if(result != "Click run to start simulation"){
                 clean()
             }
+            var myInterval = setInterval(getLastCells, mytime);
             changeButtonsDisabledState(true)
             $.ajax(
                 {
                     url: '{% url "tron_app:runSimulation" %}',
                     success: function (data) {
                         changeButtonsDisabledState(false)
+                        clearInterval(myInterval);
                     }
                 }
             )
-
         }
 
         $(".cleanBtn").click(clean)

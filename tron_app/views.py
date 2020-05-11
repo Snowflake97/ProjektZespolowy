@@ -61,8 +61,10 @@ def prepare_game(request):
         bot2 = request.FILES.get('bot2')
         rows = int(request.POST.get('rows'))
         cols = int(request.POST.get('cols'))
+        bot_front_view_size = int(request.POST.get('bot_front_view'))
+        bot_side_view_size = int(request.POST.get('bot_side_view'))
 
-        matrix = Matrix(name=name,bot_1=bot1, bot_2=bot2, rows=rows, cols=cols)
+        matrix = Matrix(name=name,bot_1=bot1, bot_2=bot2, rows=rows, cols=cols, bot_side_view_size=bot_side_view_size, bot_front_view_size=bot_front_view_size)
         matrix.save()
         newMatrix(matrix)
         return HttpResponseRedirect('/tron/')

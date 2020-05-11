@@ -37,13 +37,12 @@ class Bot:
     def send_map_piece(self, map_piece_str):
         self.bot.sendline(f"map---{map_piece_str}")
         anwser = self.bot.expect("MAP_RECEIVED")
-        print("SUCCESS")
+        # print("SUCCESS")
 
     def get_next_move(self):
         self.bot.sendline("move")
         anwser = self.bot.expect(['MOVE---\d+---\d+'])
         next_move = self.bot.after.decode("utf-8")
-        print(next_move)
         digits = re.findall(r'\d+', next_move)
         row = int(digits[0])
         col = int(digits[1])
