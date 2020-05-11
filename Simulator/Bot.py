@@ -65,4 +65,4 @@ class Bot:
             self.current_direction = direction
             return self.current_row, self.current_column
         else:
-            return -1,-1
+            return None, None
