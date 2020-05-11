@@ -63,6 +63,7 @@ def run():
 
             bot_1_move = bot_move(bot1, gameboard)
             bot_2_move = bot_move(bot2, gameboard)
+
             if bot_1_move == bot_2_move:
                 gameboard.change_result(result="Tie")
                 break

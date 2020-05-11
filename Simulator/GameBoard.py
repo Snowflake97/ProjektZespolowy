@@ -14,7 +14,6 @@ class Gameboard:
         self.columns = self.matrix.cell_set.all().aggregate(Max('col'))['col__max'] + 1  # columns size
         self.game_map = self.load_map()  # load map from db
 
-
     def load_map(self):
         game_map = []
         for row in range(self.rows):
@@ -31,11 +30,12 @@ class Gameboard:
         return self.game_map[row][column]
 
     def set_on_position(self, row: int, column: int, obj_to_set):
-        self.game_map[row][column] = obj_to_set
-        cell = self.matrix.cell_set.get(row=row, col=column)  # get cell from db
-        cell.val = obj_to_set  # change value
-        cell.time = datetime.now(tz=timezone.utc)  # set current time
-        cell.save()  # save cell to db
+        if row != None and column != None:
+            self.game_map[row][column] = obj_to_set
+            cell = self.matrix.cell_set.get(row=row, col=column)  # get cell from db
+            cell.val = obj_to_set  # change value
+            cell.time = datetime.now(tz=timezone.utc)  # set current time
+            cell.save()  # save cell to db
 
     def check_if_colision(self, row: int, column: int):
         '''
@@ -43,12 +43,14 @@ class Gameboard:
         :param column:
         :return: True if colision, False if correct
         '''
-        print(f"{row}, {column}")
-        if row >= self.rows or row < 0 or column >= self.columns or column < 0 or self.get_value_from_position(row,
-                                                                                                               column) != 0:
-            return True
-        else:
+        if row == None and column == None:
             return False
+        else:
+            if row >= self.rows or row < 0 or column >= self.columns or column < 0 or self.get_value_from_position(row,
+                                                                                                                   column) != 0:
+                return True
+            else:
+                return False
 
     def get_map_piece(self, bot_position: tuple, bot_direction: str, side_size: int, front_size: int):
         bot_row, bot_column = bot_position
@@ -149,10 +151,10 @@ class Gameboard:
 
     def is_move_possible(self, row, column):
 
-        up = row-1, column
-        down = row+1, column
-        left = row, column-1
-        right = row, column+1
+        up = row - 1, column
+        down = row + 1, column
+        left = row, column - 1
+        right = row, column + 1
 
         surrounding = [up, down, left, right]
 
@@ -160,8 +162,8 @@ class Gameboard:
         for surr in surrounding:
             row, col = surr
             print(surr)
-            if row >= 0 and row <self.rows:
-                if col >= 0 and col <self.columns:
+            if row >= 0 and row < self.rows:
+                if col >= 0 and col < self.columns:
                     if self.game_map[row][col] == 0:
                         state = True
                         break
