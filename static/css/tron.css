@@ -21,6 +21,12 @@ table {
 }
 
 .jumbotron {
+    padding-top: 10px;
     background: white;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 
+.buttons{
+    padding-top: 15px;
+}

@@ -10,6 +10,7 @@
 {% block body_block %}
     <div class="loader"></div>
     <div class="container" align="center">
+        <h3 id="titleHeader">{{ matrix.result }}</h3>
         <div class="jumbotron">
             <table class="myTable" align="center">
                 <div class="divTable">
@@ -30,9 +31,10 @@
                 </div>
             </table>
         </div>
-        <button type="button" class="runBtn btn btn-primary btn-lg">Run Script</button>
-        <button type="button" class="cleanBtn btn btn-primary btn-lg">Clean</button>
-        <button type="button" class="runBots btn btn-primary btn-lg">Run Bots</button>
+        <div class="buttons">
+            <button type="button" class="runBots btn btn-primary btn-lg">Run Bots</button>
+            <button type="button" class="cleanBtn btn btn-primary btn-lg">Reset</button>
+        </div>
     </div>
 {% endblock body_block %}
 
@@ -40,8 +42,9 @@
     <script>
         var mytime = 100;
         var buttons = $("button")
+        var result = $("#titleHeader").text()
 
-        function changeButtonsDisabledState(setBoolean){
+        function changeButtonsDisabledState(setBoolean) {
             buttons.attr('disabled', setBoolean)
         }
 
@@ -51,6 +54,11 @@
                 url: "{% url "tron_app:lastCells" %}",
                 success: function (data) {
                     my_data = data.models_to_return;
+                    grab_result = data.result
+                    if (grab_result != result) {
+                        result = grab_result
+                        $("#titleHeader").text(result)
+                    }
                     for (i = 0; i < my_data.length; i++) {
                         var cell = my_data[i];
                         if (cell.val == 1) {
@@ -67,39 +75,27 @@
 
         var myInterval = setInterval(getLastCells, mytime);
 
-
-        $(".runBtn").click(function () {
-            changeButtonsDisabledState(true)
-            $.ajax(
-                {
-                    url: '{% url "tron_app:run" %}',
-                    success: function (data) {
-                        changeButtonsDisabledState(false)
-                    }
-                }
-            )
-        });
-
-        $(".cleanBtn").click(function () {
+        function clean() {
             $(".container").hide()
             $(".loader").css('visibility', 'visible')
             clearInterval(myInterval)
-            changeButtonsDisabledState(true)
             $.ajax(
                 {
                     url: '{% url "tron_app:clean" %}',
                     success: function (data) {
                         $(".jumbotron").load({% url "tron_app:tron" %} +" .myTable");
                         myInterval = setInterval(getLastCells, mytime);
-                        changeButtonsDisabledState(false)
                         $(".loader").css('visibility', 'hidden')
                         $(".container").show()
                     }
                 }
             )
-        })
+        }
 
-        $(".runBots").click(function () {
+        function run() {
+            if(result != "Click run to start simulation"){
+                clean()
+            }
             changeButtonsDisabledState(true)
             $.ajax(
                 {
@@ -109,7 +105,14 @@
                     }
                 }
             )
-        });
+
+        }
+
+        $(".cleanBtn").click(clean)
+
+        $(".runBots").click(run)
 
     </script>
 {% endblock script %}
+
+
