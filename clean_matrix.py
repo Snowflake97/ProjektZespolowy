@@ -14,6 +14,8 @@ import time
 
 def clean():
     matrix = Matrix.objects.last()
+    matrix.result = "Click run to start simulation"
+    matrix.save()
     cell_list = matrix.cell_set.filter(val__gte=0)
     for cell in cell_list:
         cell.val = 0

@@ -14,6 +14,7 @@ class Gameboard:
         self.columns = self.matrix.cell_set.all().aggregate(Max('col'))['col__max'] + 1  # columns size
         self.game_map = self.load_map()  # load map from db
 
+
     def load_map(self):
         game_map = []
         for row in range(self.rows):
@@ -42,6 +43,7 @@ class Gameboard:
         :param column:
         :return: True if colision, False if correct
         '''
+        print(f"{row}, {column}")
         if row >= self.rows or row < 0 or column >= self.columns or column < 0 or self.get_value_from_position(row,
                                                                                                                column) != 0:
             return True
@@ -145,22 +147,26 @@ class Gameboard:
         map_string += str(map_len - 1)
         return map_string
 
-    # def convert_string_map_piece_to_matrix(self, map_piece: str):
-    #
-    #     elements = map_piece.split(":")
-    #     rows_size = elements.pop()
-    #     rows = []
-    #     map = []
-    #     for e in elements:
-    #         row, col, val = e.split(".")
-    #         row = int(row)
-    #         col = int(col)
-    #         val = int(val)
-    #         tup = (row, col, val)
-    #         rows.append(tup)
-    #         # print(rows)
-    #         if (len(rows) == rows_size):
-    #             map.append(rows)
-    #             rows = []
-    #
-    #     return map
+    def is_move_possible(self, row, column):
+
+        up = row-1, column
+        down = row+1, column
+        left = row, column-1
+        right = row, column+1
+
+        surrounding = [up, down, left, right]
+
+        state = False
+        for surr in surrounding:
+            row, col = surr
+            print(surr)
+            if row >= 0 and row <self.rows:
+                if col >= 0 and col <self.columns:
+                    if self.game_map[row][col] == 0:
+                        state = True
+                        break
+        return state
+
+    def change_result(self, result):
+        self.matrix.result = result
+        self.matrix.save()

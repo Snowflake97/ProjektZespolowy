@@ -6,61 +6,81 @@ import django
 
 django.setup()
 
-from Simulator.Communication import *
+from Simulator.Bot import Bot
+from Simulator.GameBoard import Gameboard
+import random
 
-def spawn_bots(gameboard):
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+game_on = True
 
-    # PYTHON INTERPRETER */ProjektZesplowy/venv/bin/python (might change)
-    PYTHON_INTERPRETER_DIR = os.path.join(BASE_DIR, "venv", "bin", "python")
-    # NODEJS INTERPRETER (sudo-apt get install nodejs)
-    NODE_INTERPRETER_DIR = "/usr/bin/nodejs"
 
-    # */Projektespolowy/media/bots/botname
-    BOT_1_DIR = os.path.join(BASE_DIR, "media", "bots", gameboard.bot_1)
-    BOT_2_DIR = os.path.join(BASE_DIR, "media", "bots", gameboard.bot_2)
-
-    if (gameboard.bot_1[-2:] == 'py'):
-        bot_1 = pexpect.spawn(f"{PYTHON_INTERPRETER_DIR} {BOT_1_DIR} bot_1")
-    elif (gameboard.bot_1[-2:] == 'js'):
-        bot_1 = pexpect.spawn(f"{NODE_INTERPRETER_DIR} {BOT_1_DIR} bot_1")  #
+def bot_move(bot, gameboard):
+    map_piece_str = gameboard.convert_map_piece_to_string(
+        gameboard.get_map_piece((bot.current_row, bot.current_column), bot.current_direction, 2, 5))
+    bot.send_map_piece(map_piece_str)
+    move = bot.get_next_move()
+    if move != None:
+        row, column = move
+        return row, column
     else:
-        bot_1 = None
+        return None
 
-    if (gameboard.bot_2[-2:] == 'py'):
-        bot_2 = pexpect.spawn(f"{PYTHON_INTERPRETER_DIR} {BOT_2_DIR} bot_2")
-    elif (gameboard.bot_1[-2:] == 'js'):
-        bot_2 = pexpect.spawn(f"{NODE_INTERPRETER_DIR} {BOT_2_DIR} bot_2")  #
-    else:
-        bot_2 = None
 
-    return bot_1, bot_2
+
+def get_two_random_start_position(gameboard):
+    row1 = random.randint(0, gameboard.rows - 1)
+    row2 = random.randint(0, gameboard.rows - 1)
+    col1 = random.randint(0, gameboard.columns - 1)
+    col2 = random.randint(0, gameboard.columns - 1)
+    while row1 == row2 and col1 == col2:
+        row1 = random.randint(0, gameboard.rows - 1)
+        row2 = random.randint(0, gameboard.rows - 1)
+        col1 = random.randint(0, gameboard.columns - 1)
+        col2 = random.randint(0, gameboard.columns - 1)
+    return row1, col1, row2, col2
 
 
 def run():
     gameboard = Gameboard()
-    bot_1, bot_2 = spawn_bots(gameboard)
+    bot_1_start_row, bot_1_start_column, bot_2_start_row, bot_2_start_column = get_two_random_start_position(gameboard)
+    bot1 = Bot(gameboard.bot_1, 1, bot_1_start_row, bot_1_start_column)
+    bot2 = Bot(gameboard.bot_2, 2, bot_2_start_row, bot_2_start_column)
 
-    if bot_1 != None and bot_2 != None:
+    if bot1 != None and bot2 != None:
+        gameboard.change_result("Game on")
 
-        for i in range(20):
-            row, col = whole_seq(bot_1)  # sequence for bot1(get position and direction, send map to bot and mark move)
-            if gameboard.check_if_colision(row, col):
-                print("Colision")
+        while True:
+            if gameboard.is_move_possible(bot1.current_row,
+                                          bot1.current_column) == False and gameboard.is_move_possible(bot2.current_row,
+                                                                                                       bot2.current_column) == False:
+                gameboard.change_result(result="Tie")
+                break
+            elif gameboard.is_move_possible(bot1.current_row, bot1.current_column) == False:
+                gameboard.change_result(result="Red wins")
+                break
+            elif gameboard.is_move_possible(bot2.current_row, bot2.current_column) == False:
+                gameboard.change_result(result="Blue wins")
+                break
+
+            bot_1_move = bot_move(bot1, gameboard)
+            bot_2_move = bot_move(bot2, gameboard)
+            if bot_1_move == bot_2_move:
+                gameboard.change_result(result="Tie")
+                break
+            elif gameboard.check_if_colision(bot_1_move[0], bot_1_move[1]):
+                gameboard.change_result(result="Red wins")
+                break
+            elif gameboard.check_if_colision(bot_2_move[0], bot_2_move[1]):
+                gameboard.change_result(result="Blue wins")
                 break
             else:
-                gameboard.set_on_position(row, col, 1)  # mark returned position
-
-            row, col = whole_seq(bot_2)  # sequence for bot2(get position and direction, send map to bot and mark move)
-            if gameboard.check_if_colision(row, col):
-                print("Colision")
-                break
-            else:
-                gameboard.set_on_position(row, col, 2)  # mark returned position
-
-        bot_1.close()
-        bot_2.close()
-
+                gameboard.set_on_position(bot_1_move[0], bot_1_move[1], bot1.bot_mark_value)
+                gameboard.set_on_position(bot_2_move[0], bot_2_move[1], bot2.bot_mark_value)
     else:
-        # if bots not loaded
-        pass
+        gameboard.change_result("There is problem with bots")
+
+    bot1.bot.close()
+    bot2.bot.close()
+
+
+if __name__ == "__main__":
+    gameboard = Gameboard()

@@ -31,28 +31,20 @@ def clean_board(request):
         raise Http404
 
 
-def make_moves(request):
-    if request.is_ajax():
-        sim = Simulation(1, 1, 0.2)
-        sim.go_down(5, 1)
-        sim.go_right(5, 1)
-        sim.go_up(5, 1)
-        sim.go_left(5, 1)
-        more_data = ["finish"]
-        data = json.dumps(more_data)
-        return HttpResponse(data, content_type="application/json")
-    else:
-        raise Http404
-
 
 def get_last_cells(request):
-    last = Cell.objects.all().order_by('-time')[:10]
+    last = Matrix.objects.last().cell_set.all().order_by('-time')[:10]
+    result = Matrix.objects.last().result
     queryset = last.values("row", "col", "val")
-    return JsonResponse({"models_to_return": list(queryset)})
+    return JsonResponse({"models_to_return": list(queryset),
+                         'result' : result})
 
 
 def run_simulation(request):
     if request.is_ajax():
+        matrix = Matrix.objects.last()
+        matrix.result = "Loading bots"
+        matrix.save()
         TRON_Simulator.run()
         more_data = ["finish"]
         data = json.dumps(more_data)

@@ -9,6 +9,7 @@ class Matrix(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField(default=0)
     cols = models.IntegerField(default=0)
+    result = models.CharField(max_length=500, default="")
 
     def bot_1_name(self):
         return os.path.basename(self.bot_1.name)
