@@ -17,10 +17,12 @@ def bot_move(bot, gameboard):
     side_size = int(gameboard.matrix.bot_front_view_size)
     front_size = int(gameboard.matrix.bot_side_view_size)
 
-    map_piece_str = gameboard.convert_map_piece_to_string(
-        gameboard.get_map_piece((bot.current_row, bot.current_column), bot.current_direction, front_size, side_size))
+    map_piece = gameboard.get_map_piece((bot.current_row, bot.current_column), bot.current_direction, front_size, side_size)
+    map_piece_str = gameboard.convert_map_piece_to_string(map_piece)
+
     bot.send_map_piece(map_piece_str)
     move = bot.get_next_move()
+
     if move != None:
         row, column = move
         return row, column
@@ -82,7 +84,7 @@ def run():
                     gameboard.change_result(result="Blue wins")
                     break
 
-            if bot_1_move == bot_2_move and bot_1_move != (None, None) :
+            if bot_1_move == bot_2_move and bot_1_move != (None, None):
                 gameboard.change_result(result="Tie")
                 break
             elif gameboard.check_if_colision(bot_1_move[0], bot_1_move[1]):
