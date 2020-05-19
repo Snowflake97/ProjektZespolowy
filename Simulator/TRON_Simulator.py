@@ -20,7 +20,12 @@ def bot_move(bot, gameboard):
     map_piece = gameboard.get_map_piece((bot.current_row, bot.current_column), bot.current_direction, front_size, side_size)
     map_piece_str = gameboard.convert_map_piece_to_string(map_piece)
 
-    bot.send_map_piece(map_piece_str)
+    try:
+        bot.send_map_piece(map_piece_str)
+    except:
+        print(f"Sending map piece to bot {bot.bot_name} unsuccesful")
+        return None
+
     move = bot.get_next_move()
 
     if move != None:
@@ -77,11 +82,14 @@ def run():
                 print(bot_1_bad_moves_counter)
                 if(bot_1_bad_moves_counter >5):
                     gameboard.change_result(result="Red wins")
-                    break
+
             if bot_2_move == (None, None):
                 bot_2_bad_moves_counter += 1
                 if(bot_2_bad_moves_counter >5):
-                    gameboard.change_result(result="Blue wins")
+                    if (bot_1_bad_moves_counter <= 5):
+                        gameboard.change_result(result="Blue wins")
+                    else:
+                        gameboard.change_result(result="Tie")
                     break
 
             if bot_1_move == bot_2_move and bot_1_move != (None, None):

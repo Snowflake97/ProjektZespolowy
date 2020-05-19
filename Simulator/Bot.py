@@ -36,12 +36,17 @@ class Bot:
 
     def send_map_piece(self, map_piece_str):
         self.bot.sendline(f"map---{map_piece_str}")
-        anwser = self.bot.expect("MAP_RECEIVED")
+        anwser = self.bot.expect(["MAP_RECEIVED",  '.+', pexpect.EOF])
+        if anwser != 0:
+            raise Exception
         # print("SUCCESS")
 
     def get_next_move(self):
         self.bot.sendline("move")
-        anwser = self.bot.expect(['MOVE---\d+---\d+'])
+        anwser = self.bot.expect(['MOVE---\d+---\d+', '.+', pexpect.EOF])
+        if anwser != 0:
+            return None, None
+
         next_move = self.bot.after.decode("utf-8")
         digits = re.findall(r'\d+', next_move)
         row = int(digits[0])
