@@ -43,7 +43,7 @@ def get_last_cells(request):
 def run_simulation(request):
     if request.is_ajax():
         matrix = Matrix.objects.last()
-        matrix.result = "Loading bots"
+        matrix.result = "Loading bots and obstacles"
         matrix.save()
         TRON_Simulator.run()
         more_data = ["finish"]
@@ -59,8 +59,13 @@ def prepare_game(request):
         name = request.POST.get('matrix_name')
         bot1 = request.FILES.get('bot1')
         bot2 = request.FILES.get('bot2')
-        rows = int(request.POST.get('rows'))
-        cols = int(request.POST.get('cols'))
+        if 'map_conf_file' in request.FILES.keys():
+            rows, cols = TRON_Simulator.load_map_from_file(request.FILES.get('map_conf_file'))
+        else:
+            rows = int(request.POST.get('rows'))
+            cols = int(request.POST.get('cols'))
+            # rows, cols = TRON_Simulator.load_map_from_file('/home/greezye/Greezye/Studia/Projekty/ProjektZespolowy/media/maps/map_test_1.txt')
+
         bot_front_view_size = int(request.POST.get('bot_front_view'))
         bot_side_view_size = int(request.POST.get('bot_side_view'))
 

@@ -2,6 +2,7 @@ from tron_app.models import Cell, Matrix
 from django.db.models import Max
 from django.utils import timezone
 from datetime import datetime
+import time
 import os
 
 
@@ -171,3 +172,10 @@ class Gameboard:
     def change_result(self, result):
         self.matrix.result = result
         self.matrix.save()
+
+    def create_obstacles(self, obstacles: list):
+        for obstacle in obstacles:
+            self.set_on_position(row=obstacle[0],
+                                 column=obstacle[1],
+                                 obj_to_set=obstacle[2])
+            time.sleep(0.1)

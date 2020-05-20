@@ -11,6 +11,56 @@ from Simulator.GameBoard import Gameboard
 import random
 
 game_on = True
+OBSTACLES = []
+
+
+def load_obstacle_from_file(file_obstacle_line):
+    start_point, end_point = file_obstacle_line.split('-')
+
+    start_row, start_column = start_point.split(',')
+    end_row, end_column = end_point.split(',')
+
+    start_row = int(start_row)
+    start_column = int(start_column)
+    end_row = int(end_row)
+    end_column = int(end_column)
+
+    if start_row != end_row and start_column != end_column:
+        # not creating straigh line
+        return
+    elif start_row == end_row and start_column == end_column:
+        # creating a point
+        OBSTACLES.append((start_row, start_column, 9))
+
+    elif start_row == end_row:
+        # horizontal line
+        for column in range(start_column, end_column+1):
+            OBSTACLES.append((start_row, column, 9))
+
+    elif start_column == end_column:
+        for row in range(start_row, end_row + 1):
+            OBSTACLES.append((row, start_column, 9))
+
+
+def load_map_from_file(file: str):
+
+    with open(file) as f:
+        file_lines = f.readlines()
+
+    if len(file_lines) > 1:
+        size = file_lines[0].split('x')
+        file_obstacles = file_lines[1:]
+
+        for obstacle in file_obstacles:
+            load_obstacle_from_file(obstacle)
+
+        return int(size[0]), int(size[1])
+
+    elif len(file_lines) == 1:
+        size = file_lines[0].split('x')
+        return int(size[0]), int(size[1])
+    else:
+        return 30, 30
 
 
 def bot_move(bot, gameboard):
@@ -35,7 +85,7 @@ def bot_move(bot, gameboard):
         return None
 
 
-def get_two_random_start_position(gameboard):
+def get_random_start_positions_for_bots(gameboard):
     row1 = random.randint(0, gameboard.rows - 1)
     row2 = random.randint(0, gameboard.rows - 1)
     col1 = random.randint(0, gameboard.columns - 1)
@@ -53,7 +103,9 @@ def run():
     bot_2_bad_moves_counter = 0
     gameboard = Gameboard()
 
-    bot_1_start_row, bot_1_start_column, bot_2_start_row, bot_2_start_column = get_two_random_start_position(gameboard)
+    gameboard.create_obstacles(OBSTACLES)
+
+    bot_1_start_row, bot_1_start_column, bot_2_start_row, bot_2_start_column = get_random_start_positions_for_bots(gameboard)
     bot1 = Bot(gameboard.bot_1, 1, bot_1_start_row, bot_1_start_column)
     bot2 = Bot(gameboard.bot_2, 2, bot_2_start_row, bot_2_start_column)
 

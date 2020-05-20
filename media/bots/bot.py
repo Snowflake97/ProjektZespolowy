@@ -24,9 +24,9 @@ def convert_string_map_piece_to_matrix(map_piece: str):
     return map
 
 
-current_row = 15
-current_col = 12
-current_direction = "left"
+current_row = 0
+current_col = 0
+current_direction = ""
 matrix_map = []
 
 while True:
@@ -34,9 +34,9 @@ while True:
     if "move" in line:
         # send next move
         print(f"MOVE---{current_row}---{current_col}")
-    if "position_and_direction" in line:
-        # left or down or up or right
-        print(f"ROW---{current_row}---COLUMN---{current_col}---DIRECTION---{current_direction}")
+    # if "position_and_direction" in line:
+    #     # left or down or up or right
+    #     print(f"ROW---{current_row}---COLUMN---{current_col}---DIRECTION---{current_direction}")
     if "map" in line:
         # convert string to matrix map
         print(f"MAP_RECEIVED")

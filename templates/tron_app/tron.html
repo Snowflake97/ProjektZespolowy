@@ -27,6 +27,9 @@
                         {% if cell.val == 2 %}
                             <td class="red"></td>
                         {% endif %}
+                        {% if cell.val == 9 %}
+                            <td class="black"></td>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </table>
@@ -65,6 +68,8 @@
                             $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "blue");
                         } else if (cell.val == 2) {
                             $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "red");
+                        } else if (cell.val == 9) {
+                            $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "black");
                         } else {
                             $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "white");
                         }
