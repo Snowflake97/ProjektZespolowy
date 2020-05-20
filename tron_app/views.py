@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from make_move import Simulation
 from clean_matrix import clean as cleanMatrix
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
 from .models import Matrix, Cell
+import os
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 import json
 from django.http import JsonResponse
@@ -60,16 +64,18 @@ def prepare_game(request):
         bot1 = request.FILES.get('bot1')
         bot2 = request.FILES.get('bot2')
         if 'map_conf_file' in request.FILES.keys():
-            rows, cols = TRON_Simulator.load_map_from_file(request.FILES.get('map_conf_file'))
+            file = request.FILES.get('map_conf_file')
+            path = default_storage.save(os.path.join('maps/map_tmp.txt'), ContentFile(file.read()))
+            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+            rows, cols = TRON_Simulator.load_map_from_file(tmp_file)
         else:
             rows = int(request.POST.get('rows'))
             cols = int(request.POST.get('cols'))
-            # rows, cols = TRON_Simulator.load_map_from_file('/home/greezye/Greezye/Studia/Projekty/ProjektZespolowy/media/maps/map_test_1.txt')
 
         bot_front_view_size = int(request.POST.get('bot_front_view'))
         bot_side_view_size = int(request.POST.get('bot_side_view'))
 
-        matrix = Matrix(name=name,bot_1=bot1, bot_2=bot2, rows=rows, cols=cols, bot_side_view_size=bot_side_view_size, bot_front_view_size=bot_front_view_size)
+        matrix = Matrix(name=name, bot_1=bot1, bot_2=bot2, rows=rows, cols=cols, bot_side_view_size=bot_side_view_size, bot_front_view_size=bot_front_view_size)
         matrix.save()
         newMatrix(matrix)
         return HttpResponseRedirect('/tron/')

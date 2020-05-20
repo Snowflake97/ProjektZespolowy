@@ -42,7 +42,7 @@ def load_obstacle_from_file(file_obstacle_line):
             OBSTACLES.append((row, start_column, 9))
 
 
-def load_map_from_file(file: str):
+def load_map_from_file(file):
 
     with open(file) as f:
         file_lines = f.readlines()
@@ -85,17 +85,21 @@ def bot_move(bot, gameboard):
         return None
 
 
-def get_random_start_positions_for_bots(gameboard):
-    row1 = random.randint(0, gameboard.rows - 1)
-    row2 = random.randint(0, gameboard.rows - 1)
-    col1 = random.randint(0, gameboard.columns - 1)
-    col2 = random.randint(0, gameboard.columns - 1)
-    while row1 == row2 and col1 == col2:
-        row1 = random.randint(0, gameboard.rows - 1)
-        row2 = random.randint(0, gameboard.rows - 1)
-        col1 = random.randint(0, gameboard.columns - 1)
-        col2 = random.randint(0, gameboard.columns - 1)
-    return row1, col1, row2, col2
+def get_random_start_position_for_bot(gameboard):
+    position_valid = False
+    while not position_valid:
+        row = random.randint(0, gameboard.rows - 1)
+        col = random.randint(0, gameboard.columns - 1)
+
+        for obstacle in OBSTACLES:
+            if row == obstacle[0] and col == obstacle[1]:
+                continue
+            else:
+                position_valid = True
+
+
+    OBSTACLES.append((row, col, 9))
+    return row, col
 
 
 def run():
@@ -105,7 +109,9 @@ def run():
 
     gameboard.create_obstacles(OBSTACLES)
 
-    bot_1_start_row, bot_1_start_column, bot_2_start_row, bot_2_start_column = get_random_start_positions_for_bots(gameboard)
+    bot_1_start_row, bot_1_start_column = get_random_start_position_for_bot(gameboard)
+    bot_2_start_row, bot_2_start_column = get_random_start_position_for_bot(gameboard)
+
     bot1 = Bot(gameboard.bot_1, 1, bot_1_start_row, bot_1_start_column)
     bot2 = Bot(gameboard.bot_2, 2, bot_2_start_row, bot_2_start_column)
 
