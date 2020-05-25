@@ -65,7 +65,7 @@ def prepare_game(request):
         bot2 = request.FILES.get('bot2')
         if 'map_conf_file' in request.FILES.keys():
             file = request.FILES.get('map_conf_file')
-            path = default_storage.save(os.path.join('maps/map_tmp.txt'), ContentFile(file.read()))
+            path = default_storage.save(os.path.join('maps', 'map_tmp.txt'), ContentFile(file.read()))
             tmp_file = os.path.join(settings.MEDIA_ROOT, path)
             rows, cols = TRON_Simulator.load_map_from_file(tmp_file)
         else:
