@@ -112,6 +112,9 @@ def run():
     bot_1_start_row, bot_1_start_column = get_random_start_position_for_bot(gameboard)
     bot_2_start_row, bot_2_start_column = get_random_start_position_for_bot(gameboard)
 
+    OBSTACLES.pop(-1)
+    OBSTACLES.pop(-1)
+
     bot1 = Bot(gameboard.bot_1, 1, bot_1_start_row, bot_1_start_column)
     bot2 = Bot(gameboard.bot_2, 2, bot_2_start_row, bot_2_start_column)
 
