@@ -97,6 +97,8 @@ def get_random_start_position_for_bot(gameboard):
             else:
                 position_valid = True
 
+        position_valid = True
+
 
     OBSTACLES.append((row, col, 9))
     return row, col
@@ -167,6 +169,8 @@ def run():
                 gameboard.set_on_position(bot_2_move[0], bot_2_move[1], bot2.bot_mark_value)
     else:
         gameboard.change_result("There is problem with bots")
+
+    OBSTACLES.clear()
 
     bot1.bot.close()
     bot2.bot.close()
