@@ -6,68 +6,83 @@
 {% endblock css_block %}
 
 {% block body_block %}
-    <br>
-    <div class="loader"></div>
-    <div class="container">
-        <div class="jumbotron">
-            <form id="matrixForm" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {#                {{ matrix_form.as_p }}#}
-                <div class="form-group">
-                    <label for="matrix_name">Name :</label>
-                    <input type="text" id="matrix_name" name="matrix_name" required>
-                </div>
+    <body class="bg">
+        <br>
+        <div class="loader"></div>
+        <div class="container">
+            <div class="jumbotron">
+                <form id="matrixForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {#                {{ matrix_form.as_p }}#}
+                    <div class="form-group row justify-content-center">
 
-                <div class="form-group">
-                    <label for="map_conf_file">Map configuration file:</label>
-                    <input type="file" class="form-control-file" id="map_conf_file" name="map_conf_file">
-                </div>
+                        <label for="matrix_name">Name :</label>
+                        <div class="col-3"><input type="text" id="matrix_name" name="matrix_name" required></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="map_conf_file">Map configuration file:</label>
+                                <input type="file" class="form-control-file" id="map_conf_file" name="map_conf_file">
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label for="rows">Rows:</label>
-                    <input type="number" name="rows" value="30" min="10" max="100" id="rows" class="numbers">
-                </div>
+                        <div class="col-6">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="rows">Rows:</label>
+                                    <input type="number" name="rows" value="30" min="10" max="100" id="rows" class="numbers">
+                                </div>
+                            </div>
 
-                <div class="form-group">
-                    <label for="cols">Columns:</label>
-                    <input type="number" name="cols" value="30" min="10" max="100" id="cols" class="numbers">
-                </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="cols">Columns:</label>
+                                    <input type="number" name="cols" value="30" min="10" max="100" id="cols" class="numbers">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="bot1">Bot 1:</label>
-                    <input type="file" class="form-control-file" id="bot1" name="bot1" required>
-                </div>
+                    <div class="row">
 
-                <div class="form-group">
-                    <label for="bot2">Bot 2:</label>
-                    <input type="file" class="form-control-file" id="bot2" name="bot2" required>
-                </div>
+                        <div class="form-group col-md-6">
+                            <label for="bot1">Bot 1:</label>
+                            <input type="file" class="form-control-file" id="bot1" name="bot1" required>
+                        </div>
 
-                <div class="form-group">
-                    <label for="bot_front_view">Front view:</label>
-                    <input type="number" class="numbers" id="bot_front_view" name="bot_front_view" value="5" min="1" required>
-                </div>
+                        <div class="form-group col-md-6">
+                            <label for="bot2">Bot 2:</label>
+                            <input type="file" class="form-control-file" id="bot2" name="bot2" required>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="bot_side_view">Side view:</label>
-                    <input type="number" class="numbers" id="bot_side_view" name="bot_side_view" value="2" min="1" required>
-                </div>
+                    <div class="form-group">
+                        <label for="bot_front_view">Front view:</label>
+                        <input type="number" class="numbers" id="bot_front_view" name="bot_front_view" value="5" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bot_side_view">Side view:</label>
+                        <input type="number" class="numbers" id="bot_side_view" name="bot_side_view" value="2" min="1" required>
+                    </div>
 
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary mb-2">Generate new game</button>
-                </div>
+                    <div class="form-group row justify-content-center">
+                        <button type="submit" class="btn btn-primary mb-2">Generate new game</button>
+                    </div>
 
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    </body>
 
 {% endblock body_block %}
 
 {% block script %}
     <script>
         $("#matrixForm").submit(function (event) {
-            $(".jumbotron").hide()
+            $(".container").hide()
             $(".loader").css('visibility', 'visible')
         });
     </script>

@@ -4,41 +4,43 @@
 
 {% block css_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/tron.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/prepare_game.css' %}">
+{#    <link rel="stylesheet" type="text/css" href="{% static 'css/prepare_game.css' %}">#}
 {% endblock css_block %}
 
 {% block body_block %}
-    <div class="loader"></div>
-    <div class="container" align="center">
-        <h3 id="titleHeader">{{ matrix.result }}</h3>
-        <div class="jumbotron">
-            <table class="myTable" align="center">
-                <div class="divTable">
-                    {% for cell in matrix.cell_set.all %}
-                        {% if forloop.counter|modulo:matrix.cols == 1 %}
-                            <tr>
-                        {% endif %}
-                        {% if cell.val == 0 %}
-                            <td></td>
-                        {% endif %}
-                        {% if cell.val == 1 %}
-                            <td class="blue"></td>
-                        {% endif %}
-                        {% if cell.val == 2 %}
-                            <td class="red"></td>
-                        {% endif %}
-                        {% if cell.val == 9 %}
-                            <td class="black"></td>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </table>
+    <body class="bg">
+        <div class="loader"></div>
+        <div class="container" align="center">
+            <h3 id="titleHeader">{{ matrix.result }}</h3>
+            <div class="jumbotron">
+                <table class="myTable" align="center">
+                    <div class="divTable">
+                        {% for cell in matrix.cell_set.all %}
+                            {% if forloop.counter|modulo:matrix.cols == 1 %}
+                                <tr>
+                            {% endif %}
+                            {% if cell.val == 0 %}
+                                <td></td>
+                            {% endif %}
+                            {% if cell.val == 1 %}
+                                <td class="blue"></td>
+                            {% endif %}
+                            {% if cell.val == 2 %}
+                                <td class="red"></td>
+                            {% endif %}
+                            {% if cell.val == 9 %}
+                                <td class="black"></td>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </table>
+            </div>
+            <div class="buttons">
+                <button type="button" class="runBots btn btn-primary btn-lg">Run Bots</button>
+                <button type="button" class="cleanBtn btn btn-primary btn-lg">Reset</button>
+            </div>
         </div>
-        <div class="buttons">
-            <button type="button" class="runBots btn btn-primary btn-lg">Run Bots</button>
-            <button type="button" class="cleanBtn btn btn-primary btn-lg">Reset</button>
-        </div>
-    </div>
+    </body>
 {% endblock body_block %}
 
 {% block script %}

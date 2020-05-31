@@ -27,3 +27,27 @@
 .numbers {
     width: 50px;
 }
+
+.bg{
+    background: url("/static/img/tron_background.png") no-repeat fixed bottom;
+    background-color: black;
+    background-size: cover;
+
+}
+
+.jumbotron{
+    background: rgba(200,200,200,0.2);
+    color: cyan;
+}
+
+.jumbotron .btn-primary{
+        background-color: cyan;
+        border-color: cyan;
+        color: black;
+}
+
+.jumbotron .btn-primary:hover{
+    background-color: #009999;
+    border: #009999;
+    color: white;
+}

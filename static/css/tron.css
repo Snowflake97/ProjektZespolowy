@@ -1,7 +1,8 @@
 td {
-    border: 1px solid black;
+    border: 1px solid cyan;
     padding-left: 10px;
     padding-top: 10px;
+    background: rgba(200,200,200,0.3);
 }
 
 .blue {
@@ -10,6 +11,10 @@ td {
 
 .red {
     background: red;
+}
+
+.white{
+    background: rgba(200,200,200,0.3);
 }
 
 .container {
@@ -22,11 +27,53 @@ table {
 
 .jumbotron {
     padding-top: 10px;
-    background: white;
+    background: rgba(0,0,0,0);
     margin-bottom: 0px;
     padding-bottom: 0px;
+    width:fit-content;
 }
 
 .buttons{
     padding-top: 15px;
+}
+
+.btn-primary{
+
+    background-color: cyan;
+    border-color: cyan;
+    color: black;
+}
+
+.btn-primary:disabled{
+    background-color: cyan;
+    border-color: cyan;
+    color: black;
+}
+
+.btn-primary:hover:enabled{
+    background-color: #009999;
+    border: #009999;
+    color: white;
+}
+
+.btn-primary:active{
+    background-color: cyan;
+    border-color: cyan;
+    color: black;
+}
+
+.btn-primary:focus{
+    background-color: cyan;
+    border-color: cyan;
+    color: black;
+}
+
+.bg{
+     background: url("/static/img/tron_full_background.png") no-repeat fixed bottom;
+     background-size: cover;
+     background-color: black;
+ }
+
+#titleHeader{
+    color: cyan;
 }
