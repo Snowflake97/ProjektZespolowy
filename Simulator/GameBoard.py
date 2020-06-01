@@ -53,7 +53,7 @@ class Gameboard:
             else:
                 return False
 
-    def get_map_piece(self, bot_position: tuple, bot_direction: str, side_size: int, front_size: int):
+    def get_map_piece(self, bot_position: tuple, bot_direction: str, front_size: int, side_size: int):
         bot_row, bot_column = bot_position
         map_piece = []
         if bot_direction == "up":

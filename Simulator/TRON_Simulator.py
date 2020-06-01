@@ -64,8 +64,8 @@ def load_map_from_file(file):
 
 
 def bot_move(bot, gameboard):
-    side_size = int(gameboard.matrix.bot_front_view_size)
-    front_size = int(gameboard.matrix.bot_side_view_size)
+    front_size = int(gameboard.matrix.bot_front_view_size)
+    side_size = int(gameboard.matrix.bot_side_view_size)
 
     map_piece = gameboard.get_map_piece((bot.current_row, bot.current_column), bot.current_direction, front_size, side_size)
     map_piece_str = gameboard.convert_map_piece_to_string(map_piece)
