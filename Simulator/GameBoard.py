@@ -65,7 +65,7 @@ class Gameboard:
                 part_piece = []
                 for side in range(2 * side_size + 1):
                     if current_row < 0 or current_row >= self.rows or current_col < 0 or current_col >= self.columns:
-                        position = (current_row, current_col, 9)  # mark map end
+                        position = (current_row, current_col, 8)  # mark map end
                     else:
                         position = (current_row, current_col, self.get_value_from_position(current_row, current_col))
                         # position = "{},{}".format(start_row,current_col)
@@ -84,7 +84,7 @@ class Gameboard:
                 part_piece = []
                 for side in range(2 * side_size + 1):
                     if current_row < 0 or current_row >= self.rows or current_col < 0 or current_col >= self.columns:
-                        position = (current_row, current_col, 9)  # mark map end
+                        position = (current_row, current_col, 8)  # mark map end
                     else:
                         position = (current_row, current_col, self.get_value_from_position(current_row, current_col))
                     part_piece.append(position)
@@ -104,7 +104,7 @@ class Gameboard:
                 part_piece = []
                 for side in range(2 * side_size + 1):
                     if current_row < 0 or current_row >= self.rows or current_col < 0 or current_col >= self.columns:
-                        position = (current_row, current_col, 9)  # mark map end
+                        position = (current_row, current_col, 8)  # mark map end
                     else:
                         position = (current_row, current_col, self.get_value_from_position(current_row, current_col))
                     current_row -= 1
@@ -125,7 +125,7 @@ class Gameboard:
                 part_piece = []
                 for side in range(2 * side_size + 1):
                     if current_row < 0 or current_row >= self.rows or current_col < 0 or current_col >= self.columns:
-                        position = (current_row, current_col, 9)  # mark map end
+                        position = (current_row, current_col, 8)  # mark map end
                     else:
                         position = (current_row, current_col, self.get_value_from_position(current_row, current_col))
                     current_row += 1
