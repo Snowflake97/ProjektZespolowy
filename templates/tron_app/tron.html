@@ -4,7 +4,7 @@
 
 {% block css_block %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/tron.css' %}">
-{#    <link rel="stylesheet" type="text/css" href="{% static 'css/prepare_game.css' %}">#}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/loader.css' %}">
 {% endblock css_block %}
 
 {% block body_block %}
@@ -20,7 +20,7 @@
                                 <tr>
                             {% endif %}
                             {% if cell.val == 0 %}
-                                <td></td>
+                                <td class="white"></td>
                             {% endif %}
                             {% if cell.val == 1 %}
                                 <td class="blue"></td>
@@ -72,8 +72,6 @@
                             $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "red");
                         } else if (cell.val == 9) {
                             $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "black");
-                        } else {
-                            $("tr").eq(cell.row).find("td").eq(cell.col).css("background", "white");
                         }
                     }
                 }
