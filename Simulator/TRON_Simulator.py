@@ -11,6 +11,7 @@ from Simulator.GameBoard import Gameboard
 import random
 
 game_on = True
+MAP_CREATED_FROM_FILE = False
 OBSTACLES = []
 
 
@@ -109,7 +110,8 @@ def run():
     bot_2_bad_moves_counter = 0
     gameboard = Gameboard()
 
-    gameboard.create_obstacles(OBSTACLES)
+    if MAP_CREATED_FROM_FILE:
+        gameboard.create_obstacles(OBSTACLES)
 
     bot_1_start_row, bot_1_start_column = get_random_start_position_for_bot(gameboard)
     bot_2_start_row, bot_2_start_column = get_random_start_position_for_bot(gameboard)
@@ -170,7 +172,7 @@ def run():
     else:
         gameboard.change_result("There is problem with bots")
 
-    OBSTACLES.clear()
+    # OBSTACLES.clear()
 
     bot1.bot.close()
     bot2.bot.close()

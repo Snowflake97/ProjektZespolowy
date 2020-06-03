@@ -64,11 +64,13 @@ def prepare_game(request):
         bot1 = request.FILES.get('bot1')
         bot2 = request.FILES.get('bot2')
         if 'map_conf_file' in request.FILES.keys():
+            TRON_Simulator.MAP_CREATED_FROM_FILE = True
             file = request.FILES.get('map_conf_file')
             path = default_storage.save(os.path.join('maps', 'map_tmp.txt'), ContentFile(file.read()))
             tmp_file = os.path.join(settings.MEDIA_ROOT, path)
             rows, cols = TRON_Simulator.load_map_from_file(tmp_file)
         else:
+            TRON_Simulator.MAP_CREATED_FROM_FILE = False
             rows = int(request.POST.get('rows'))
             cols = int(request.POST.get('cols'))
 
